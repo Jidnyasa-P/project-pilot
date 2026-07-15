@@ -102,23 +102,8 @@ export async function getCurrentUserProfile() {
     });
   } catch (error) {
     console.error('Failed to fetch user profile:', error);
-    if (process.env.NODE_ENV === 'development') {
-      return {
-        clerkId: userId,
-        fullName: 'Dev User',
-        email: `dev-${userId}@localhost`,
-        imageUrl: null,
-        skills: [],
-        dreamRole: '',
-        githubUrl: null,
-        linkedinUrl: null,
-        resumeUrl: null,
-        dailyStudyTime: 0,
-        onboardingCompleted: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-    }
+    // Return null so callers can fall back to Clerk identity data.
+    // Do NOT return a fake 'Dev User' object \u2014 that causes dummy data to appear on the dashboard.
     return null;
   }
 }
