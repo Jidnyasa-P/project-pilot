@@ -7,85 +7,221 @@
   --font-mono: var(--font-geist-mono), monospace;
 }
 
+/* ─────────────────────────────────────────────────
+   DARK THEME (default)
+   All colour tokens live here as CSS custom props.
+   Components reference var(--token) so they flip
+   automatically when [data-theme="light"] is applied
+   to the <html> element by ThemeProvider.
+───────────────────────────────────────────────── */
 :root {
+  /* Core surface colours */
   --background: #030014;
   --foreground: #f8fafc;
-  
+  --surface-primary: #060417;
+  --surface-secondary: #0a071a;
+  --surface-card: rgba(10, 7, 26, 0.6);
+  --surface-overlay: rgba(3, 0, 20, 0.95);
+
+  /* Border & divider colours */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-medium: rgba(255, 255, 255, 0.08);
+  --border-glow: 0 0 12px rgba(99, 102, 241, 0.15);
+  --card-border: rgba(255, 255, 255, 0.06);
+
+  /* Text hierarchy */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-placeholder: #475569;
+
+  /* Interactive element tokens */
+  --input-bg: rgba(10, 7, 26, 0.5);
+  --input-border: rgba(255, 255, 255, 0.05);
+  --input-focus: rgba(99, 102, 241, 0.55);
+  --hover-bg: rgba(255, 255, 255, 0.04);
+  --hover-bg-strong: rgba(255, 255, 255, 0.08);
+
+  /* Glassmorphism & effects */
+  --card-glass: rgba(10, 7, 26, 0.6);
+  --glass-blur: blur(16px);
   --primary-glow: radial-gradient(rgba(120, 119, 198, 0.1), rgba(0, 0, 0, 0));
   --secondary-glow: linear-gradient(to bottom right, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.05));
-  
-  --border-glow: 0 0 12px rgba(99, 102, 241, 0.15);
-  --card-glass: rgba(10, 7, 26, 0.6);
-  --card-border: rgba(255, 255, 255, 0.06);
+
+  /* Scrollbar */
+  --scrollbar-track: rgba(3, 0, 20, 0.8);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+  --scrollbar-border: rgba(3, 0, 20, 0.8);
+
+  /* Body background decoration */
+  --body-gradient-1: rgba(120, 119, 198, 0.2);
+  --body-gradient-2: rgba(99, 102, 241, 0.05);
+  --body-gradient-3: rgba(236, 72, 153, 0.03);
+
+  /* Code block */
+  --code-bg: rgba(5, 2, 20, 0.7);
+  --code-border: rgba(255, 255, 255, 0.05);
+
+  /* Notification / Glass panel */
+  --panel-bg: #060417;
+  --panel-border: rgba(255, 255, 255, 0.1);
+
+  /* Grid / dot background patterns */
+  --grid-line: rgba(255, 255, 255, 0.02);
+  --dot-color: rgba(255, 255, 255, 0.04);
 }
 
-/* Base resets & layouts */
+/* ─────────────────────────────────────────────────
+   LIGHT THEME
+   Applied by ThemeProvider when the user picks Light.
+   Overrides every token with accessible, warm-neutral
+   values while keeping the indigo accent system.
+───────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* Core surface colours */
+  --background: #f5f4ff;
+  --foreground: #0f0c29;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f0efff;
+  --surface-card: rgba(255, 255, 255, 0.85);
+  --surface-overlay: rgba(245, 244, 255, 0.97);
+
+  /* Border & divider colours */
+  --border-subtle: rgba(99, 102, 241, 0.1);
+  --border-medium: rgba(99, 102, 241, 0.15);
+  --border-glow: 0 0 12px rgba(99, 102, 241, 0.12);
+  --card-border: rgba(99, 102, 241, 0.12);
+
+  /* Text hierarchy */
+  --text-primary: #1e1b4b;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --text-placeholder: #9ca3af;
+
+  /* Interactive element tokens */
+  --input-bg: rgba(240, 239, 255, 0.7);
+  --input-border: rgba(99, 102, 241, 0.18);
+  --input-focus: rgba(99, 102, 241, 0.45);
+  --hover-bg: rgba(99, 102, 241, 0.05);
+  --hover-bg-strong: rgba(99, 102, 241, 0.1);
+
+  /* Glassmorphism & effects */
+  --card-glass: rgba(255, 255, 255, 0.8);
+  --glass-blur: blur(16px);
+  --primary-glow: radial-gradient(rgba(99, 102, 241, 0.08), rgba(255, 255, 255, 0));
+  --secondary-glow: linear-gradient(to bottom right, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.03));
+
+  /* Scrollbar */
+  --scrollbar-track: rgba(240, 239, 255, 0.9);
+  --scrollbar-thumb: rgba(99, 102, 241, 0.2);
+  --scrollbar-thumb-hover: rgba(99, 102, 241, 0.35);
+  --scrollbar-border: rgba(240, 239, 255, 0.9);
+
+  /* Body background decoration */
+  --body-gradient-1: rgba(99, 102, 241, 0.08);
+  --body-gradient-2: rgba(139, 92, 246, 0.04);
+  --body-gradient-3: rgba(236, 72, 153, 0.02);
+
+  /* Code block */
+  --code-bg: rgba(240, 239, 255, 0.8);
+  --code-border: rgba(99, 102, 241, 0.12);
+
+  /* Notification / Glass panel */
+  --panel-bg: #ffffff;
+  --panel-border: rgba(99, 102, 241, 0.15);
+
+  /* Grid / dot background patterns */
+  --grid-line: rgba(99, 102, 241, 0.04);
+  --dot-color: rgba(99, 102, 241, 0.05);
+}
+
+/* ─────────────────────────────────────────────────
+   BASE RESETS & LAYOUT
+───────────────────────────────────────────────── */
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
-  background-image: 
-    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.2), rgba(255, 255, 255, 0)),
-    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05), transparent),
-    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.03), transparent);
+  background-image:
+    radial-gradient(ellipse 80% 80% at 50% -20%, var(--body-gradient-1), rgba(255, 255, 255, 0)),
+    radial-gradient(circle at 10% 20%, var(--body-gradient-2), transparent),
+    radial-gradient(circle at 90% 80%, var(--body-gradient-3), transparent);
   background-attachment: fixed;
+  /* Smooth transition when theme changes */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom premium scrollbar */
+/* ─────────────────────────────────────────────────
+   CUSTOM PREMIUM SCROLLBAR
+───────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(3, 0, 20, 0.8);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
-  border: 2px solid rgba(3, 0, 20, 0.8);
+  border: 2px solid var(--scrollbar-border);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--scrollbar-thumb-hover);
 }
 
-/* Sleek glassmorphic container styles */
+/* ─────────────────────────────────────────────────
+   GLASSMORPHIC CONTAINER STYLES
+───────────────────────────────────────────────── */
 .glass-panel {
   background: var(--card-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--card-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
 }
 
 .glass-panel-hover:hover {
   border-color: rgba(99, 102, 241, 0.25);
-  box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.15),
     0 0 15px rgba(99, 102, 241, 0.1);
-  background: rgba(13, 9, 36, 0.7);
+  background: var(--surface-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Animated glow background grids */
+/* ─────────────────────────────────────────────────
+   ANIMATED GLOW BACKGROUND GRIDS
+───────────────────────────────────────────────── */
 .grid-bg {
   background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
 }
 
 .dot-bg {
   background-size: 24px 24px;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
 }
 
-/* Custom modern animated gradients */
+/* ─────────────────────────────────────────────────
+   TEXT GRADIENT UTILITIES
+───────────────────────────────────────────────── */
 .text-gradient {
   background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .text-gradient {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 50%, #6366f1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -105,6 +241,9 @@ body {
   background-clip: text;
 }
 
+/* ─────────────────────────────────────────────────
+   BUTTON GLOW EFFECTS
+───────────────────────────────────────────────── */
 .btn-glowing {
   position: relative;
   overflow: hidden;
@@ -128,7 +267,9 @@ body {
   opacity: 1;
 }
 
-/* Custom animation keyframes */
+/* ─────────────────────────────────────────────────
+   ANIMATION KEYFRAMES
+───────────────────────────────────────────────── */
 @keyframes pulseGlow {
   0%, 100% {
     opacity: 0.3;
@@ -157,19 +298,46 @@ body {
   animation: gridScroll 10s linear infinite;
 }
 
-/* Custom code block styling */
+/* ─────────────────────────────────────────────────
+   CODE BLOCK STYLING
+───────────────────────────────────────────────── */
 pre {
-  background: rgba(5, 2, 20, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--code-bg) !important;
+  border: 1px solid var(--code-border);
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
 }
 
-/* Hide Clerk Dev Badge */
-.cl-internal-b3al6g, 
+/* ─────────────────────────────────────────────────
+   HIDE CLERK DEV BADGE
+───────────────────────────────────────────────── */
+.cl-internal-b3al6g,
 .cl-devMode,
 .cl-internal-phfxlr,
 div:has(> .cl-devMode) {
   display: none !important;
+}
+
+/* ─────────────────────────────────────────────────
+   THEME TRANSITION — applied to all key surfaces
+   so the switch feels polished and smooth.
+───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+
+/* Exclude transitions from elements where they cause layout jank */
+input,
+textarea,
+select,
+button,
+a,
+[data-no-transition] {
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-duration: 0.15s;
 }
