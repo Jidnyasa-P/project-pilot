@@ -11,20 +11,21 @@ import {
 } from '../types';
 
 import { generateAdaptiveDashboard } from '@/lib/adaptiveEngine';
-import { generateSmartReply } from '@/lib/mockAiEngine';
 
+// Neutral placeholder used before the authenticated user profile is hydrated from the DB.
+// This is intentionally empty — real data flows in via syncUserProfile() on mount.
 const DEFAULT_USER: User = {
-  id: 'user-default',
-  name: 'yogender verma',
-  email: 'yogendarverma0268@gmail.com',
-  avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-  careerGoal: 'AI Engineer',
-  skills: ['React', 'Next.js', 'Tailwind CSS', 'TypeScript', 'Node.js', 'Express', 'SQL']
+  id: '',
+  name: '',
+  email: '',
+  avatarUrl: '',
+  careerGoal: 'fullstack',
+  skills: []
 };
 
 const initialAdaptive = generateAdaptiveDashboard(DEFAULT_USER);
 
-// Mock recommended projects based on adaptive engine
+// Initial projects list (populated with neutral defaults before auth hydration)
 const MOCK_PROJECTS: Project[] = initialAdaptive.projects;
 
 // Initial state for Roadmaps
@@ -111,97 +112,14 @@ const INITIAL_ROADMAPS: Record<string, Roadmap> = {
 const INITIAL_CONVERSATIONS: ChatConversation[] = [
   {
     id: 'conv-1',
-    title: 'How to build the Agentic decision tree?',
-    lastUpdated: new Date(Date.now() - 3600000), // 1 hour ago
+    title: 'New Conversation',
+    lastUpdated: new Date(),
     messages: [
       {
-        id: 'msg-1',
-        role: 'user',
-        content: 'Hi! I want to start building the "OmniAI Agentic Dashboard". I am a bit stuck on how to design the decision tree visualization in React. Should I use a heavy library like React Flow, or build a simple custom one with SVG/Tailwind?',
-        timestamp: new Date(Date.now() - 3700000)
-      },
-      {
-        id: 'msg-2',
+        id: 'msg-init-1',
         role: 'assistant',
-        content: 'Hello! That is a stellar choice for a project. To answer your question: **it depends on your goals, but since you want to WOW recruiters, building a custom lightweight SVG tree is actually much more impressive!**\n\nLibraries like React Flow are powerful but heavy. When a recruiter sees a *custom-crafted canvas or SVG renderer* with Framer Motion animations, it immediately signals elite-tier frontend and math capabilities.\n\nHere is a simple template structure for building a custom React SVG Connector component to link your Agent nodes:',
-        timestamp: new Date(Date.now() - 3650000),
-        codeSnippet: {
-          language: 'tsx',
-          code: `import React from 'react';
-import { motion } from 'framer-motion';
-
-interface ConnectionProps {
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
-  isActive: boolean;
-}
-
-export const AgentConnector: React.FC<ConnectionProps> = ({ startX, startY, endX, endY, isActive }) => {
-  // Generate a beautiful, flowing S-curve path
-  const midX = (startX + endX) / 2;
-  const path = \`M \${startX} \${startY} C \${midX} \${startY}, \${midX} \${endY}, \${endX} \${endY}\`;
-
-  return (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
-      <path
-        d={path}
-        fill="none"
-        stroke="#1e293b" // slate-800
-        strokeWidth="2"
-      />
-      <motion.path
-        d={path}
-        fill="none"
-        stroke="url(#glowGradient)"
-        strokeWidth="3"
-        initial={{ pathLength: 0 }}
-        animate={isActive ? { pathLength: 1 } : { pathLength: 0 }}
-        transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity }}
-      />
-      <defs>
-        <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3b82f6" /> {/* Blue */}
-          <stop offset="50%" stopColor="#8b5cf6" /> {/* Purple */}
-          <stop offset="100%" stopColor="#ec4899" /> {/* Pink */}
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-};`
-        }
-      },
-      {
-        id: 'msg-3',
-        role: 'user',
-        content: 'Wow, that is beautiful! The S-curve calculation makes perfect sense. I will definitely use this. How can I represent the dynamic state of agents streaming from the backend?',
-        timestamp: new Date(Date.now() - 3610000)
-      },
-      {
-        id: 'msg-4',
-        role: 'assistant',
-        content: 'To handle streaming statuses, you should configure a SSE (Server-Sent Events) connection. In your Next.js frontend, write a hook that listens to `/api/agents/stream` and updates a local Zustand slice. I recommend structuring your messages like:\n`data: {"nodeId": "agent-a", "status": "running", "output": "Searching web..."}`\n\nLet me know if you want me to draft the Next.js server route or the frontend hook for this!',
-        timestamp: new Date(Date.now() - 3600000)
-      }
-    ]
-  },
-  {
-    id: 'conv-2',
-    title: 'Improving Resume Score with Docker',
-    lastUpdated: new Date(Date.now() - 86400000), // 1 day ago
-    messages: [
-      {
-        id: 'msg-1',
-        role: 'user',
-        content: 'My Resume score says 65% because I lack DevOps experience. How will building the log aggregation pipeline help me fix that?',
-        timestamp: new Date(Date.now() - 87000000)
-      },
-      {
-        id: 'msg-2',
-        role: 'assistant',
-        content: 'Excellent question. Recruiters scanning resumes for DevOps/Backend positions look for specific keywords and architectures: *Docker containers, log shippers, infrastructure dashboards, multi-service networks, and latency monitoring*.\n\nBy building the **Distributed Log Aggregation Pipeline**:\n1. You write a **Docker Compose** system uniting 4 services: Go/Node collector, Redis Queue, Elasticsearch Indexer, and Grafana Visualizer.\n2. You gain experience configuring Docker networks and volumes.\n3. You add **Prometheus metric monitoring** to measure standard throughput metrics.\n\nOn your resume, this lets you write a bullets like:\n*“Architected a containerized distributed log ingestion system handling 50k logs/sec using Kafka and Elasticsearch, achieving a 35% reduction in anomaly detection latency via custom local models.”*\n\nThis single bullet covers Docker, microservices, high-scale performance, and AI-ML, instantly boosting your career readiness score from 65% to over 85%!',
-        timestamp: new Date(Date.now() - 86400000)
+        content: 'Hello! I am your AI Career Mentor. Ask me anything about your recommended projects, how to fill skill gaps, structuring your github portfolio, or preparing for interviews with recruiters!',
+        timestamp: new Date()
       }
     ]
   }
@@ -426,11 +344,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
   login: (email, name) => {
     const newUser = {
       id: 'user-' + Math.random().toString(36).substr(2, 9),
-      name: 'yogender verma',
-      email: 'yogendarverma0268@gmail.com',
-      avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-      careerGoal: 'AI Engineer',
-      skills: ['React', 'TypeScript', 'Tailwind CSS']
+      name: name || email?.split('@')[0] || 'User',
+      email: email || '',
+      avatarUrl: '',
+      careerGoal: 'fullstack',
+      skills: []
     };
     const adaptive = generateAdaptiveDashboard(newUser);
     set((state) => ({
@@ -444,11 +362,11 @@ export const useAppStore = create<AppStore>((set, get) => ({
   signup: (email, name, careerGoal) => {
     const newUser = {
       id: 'user-' + Math.random().toString(36).substr(2, 9),
-      name: 'yogender verma',
-      email: 'yogendarverma0268@gmail.com',
-      avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-      careerGoal: 'AI Engineer',
-      skills: ['React', 'TypeScript', 'Tailwind CSS']
+      name: name || email?.split('@')[0] || 'User',
+      email: email || '',
+      avatarUrl: '',
+      careerGoal: careerGoal || 'fullstack',
+      skills: []
     };
     const adaptive = generateAdaptiveDashboard(newUser);
     set((state) => ({
@@ -475,19 +393,52 @@ export const useAppStore = create<AppStore>((set, get) => ({
     if (!dbUser) return;
     set((state) => {
       const updatedUser = {
-        id: dbUser.clerkId || dbUser.id,
-        name: 'yogender verma',
-        email: 'yogendarverma0268@gmail.com',
-        avatarUrl: dbUser.imageUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-        careerGoal: 'AI Engineer',
+        id: dbUser.clerkId || dbUser.id || '',
+        name: dbUser.fullName || dbUser.email?.split('@')[0] || 'Anonymous User',
+        email: dbUser.email || '',
+        avatarUrl: dbUser.imageUrl || '',
+        careerGoal: dbUser.dreamRole || 'fullstack',
         skills: dbUser.skills || []
       };
       const adaptive = generateAdaptiveDashboard(updatedUser);
+      
+      const dbProjects = dbUser.projects || [];
+      const adaptiveProjects = adaptive.projects;
+      
+      const mergedProjects = adaptiveProjects.map(ap => {
+        const dbProj = dbProjects.find((dp: any) => dp.id === ap.id);
+        if (dbProj) {
+          return {
+            ...ap,
+            status: dbProj.status,
+            progress: dbProj.progress,
+          };
+        }
+        return ap;
+      });
+
+      const updatedRoadmaps = { ...state.roadmaps };
+      dbProjects.forEach((dp: any) => {
+        if (dp.roadmap) {
+          try {
+            const steps = typeof dp.roadmap === 'string' ? JSON.parse(dp.roadmap) : dp.roadmap;
+            updatedRoadmaps[dp.id] = {
+              projectId: dp.id,
+              projectTitle: dp.title,
+              steps: steps
+            };
+          } catch (e) {
+            console.error('Failed to parse database project roadmap:', e);
+          }
+        }
+      });
+
       return {
         isAuthenticated: true,
         user: updatedUser,
         careerScore: adaptive.careerScore,
-        projects: adaptive.projects,
+        projects: mergedProjects,
+        roadmaps: updatedRoadmaps,
         githubAnalytics: { ...state.githubAnalytics, recruiterInsights: adaptive.insights }
       };
     });
@@ -504,15 +455,28 @@ export const useAppStore = create<AppStore>((set, get) => ({
   toggleStepCompletion: (projectId, stepId) => set((state) => {
     const roadmap = state.roadmaps[projectId];
     if (!roadmap) return {};
+    let isCompleted = false;
+    let stepTitle = '';
     const updatedSteps = roadmap.steps.map((step) => {
       if (step.id === stepId) {
+        isCompleted = !step.completed;
+        stepTitle = step.title;
         return {
           ...step,
-          completed: !step.completed
+          completed: isCompleted
         };
       }
       return step;
     });
+
+    const completedCount = updatedSteps.filter(s => s.completed).length;
+    const progress = Math.round((completedCount / updatedSteps.length) * 100);
+
+    // Sync changes to the database
+    toggleProjectMilestoneInDb(projectId, stepId, updatedSteps, progress);
+    if (isCompleted) {
+      createActivityInDb(projectId, `Completed milestone: ${stepTitle}`, 'milestone');
+    }
 
     return {
       roadmaps: {
@@ -521,7 +485,17 @@ export const useAppStore = create<AppStore>((set, get) => ({
           ...roadmap,
           steps: updatedSteps
         }
-      }
+      },
+      projects: state.projects.map(p => {
+        if (p.id === projectId) {
+          return {
+            ...p,
+            progress,
+            status: progress === 100 ? 'Completed' : 'In Progress'
+          };
+        }
+        return p;
+      })
     };
   }),
   toggleTaskCompletion: (projectId, stepId, taskIndex) => set((state) => {
@@ -530,11 +504,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
 
     const updatedSteps = roadmap.steps.map((step) => {
       if (step.id === stepId) {
-        // Let's create an array in our state or handle it. Wait, the `tasks` are strings. 
-        // We can just toggle the overall step completion if the tasks completed score matches. 
-        // For standard UI, we can toggle step completion itself. Let's make it simpler: toggling step completion
-        // toggles all tasks. Toggling a task is just interactive. Let's make task completion tracked dynamically.
-        // To keep code elegant and simple, we'll focus step completion toggle.
+        // Toggling step completion directly for clean UX
       }
       return step;
     });
@@ -592,6 +562,20 @@ export const useAppStore = create<AppStore>((set, get) => ({
       }
     ];
 
+    const projectData = state.projects.find(p => p.id === projectId);
+    if (projectData) {
+      saveProjectToDb({
+        id: projectId,
+        title: projectData.title,
+        description: projectData.description || undefined,
+        status: 'Planned',
+        progress: 0,
+        tags: projectData.technologies,
+        roadmap: newSteps
+      });
+      createActivityInDb(projectId, `Initialized Blueprint: ${title}`, 'project_start');
+    }
+
     return {
       roadmaps: {
         ...state.roadmaps,
@@ -632,38 +616,86 @@ export const useAppStore = create<AppStore>((set, get) => ({
       return conv;
     });
 
-    // Simulate AI Mentor reply streaming/delayed
-    setTimeout(() => {
-      const activeConv = get().conversations.find((c) => c.id === activeId);
-      if (!activeConv) return;
+    // Prepare an empty AI message to stream into
+    const aiMessageId = 'msg-ai-' + Math.random().toString(36).substr(2, 9);
+    const initialAiMessage: ChatMessage = {
+      id: aiMessageId,
+      role: 'assistant',
+      content: '',
+      timestamp: new Date()
+    };
 
-      const userContext = get().user || DEFAULT_USER;
-      const aiResponseData = generateSmartReply(content, userContext, activeConv.messages);
+    const updatedConversationsWithAi = updatedConversations.map((conv) => {
+      if (conv.id === activeId) {
+        return {
+          ...conv,
+          messages: [...conv.messages, initialAiMessage]
+        };
+      }
+      return conv;
+    });
 
-      const aiReplyMessage: ChatMessage = {
-        id: 'msg-ai-' + Math.random().toString(36).substr(2, 9),
-        role: 'assistant',
-        content: aiResponseData.content,
-        timestamp: new Date(),
-        codeSnippet: aiResponseData.codeSnippet
-      };
+    // Start streaming async
+    (async () => {
+      try {
+        const activeConv = get().conversations.find((c) => c.id === activeId);
+        if (!activeConv) return;
+        
+        const apiMessages = [...activeConv.messages, newMessage].map(m => ({ role: m.role, content: m.content }));
+        
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: apiMessages,
+            userContext: get().user || DEFAULT_USER
+          })
+        });
 
-      set((s) => ({
-        conversations: s.conversations.map((c) => {
-          if (c.id === activeId) {
-            return {
-              ...c,
-              messages: [...c.messages, aiReplyMessage],
-              lastUpdated: new Date()
-            };
-          }
-          return c;
-        })
-      }));
-    }, 1200);
+        if (!response.ok || !response.body) throw new Error('Failed to fetch AI response');
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let aiContent = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          const chunk = decoder.decode(value, { stream: true });
+          aiContent += chunk;
+          
+          set((s) => ({
+            conversations: s.conversations.map((c) => {
+              if (c.id === activeId) {
+                return {
+                  ...c,
+                  messages: c.messages.map(m => m.id === aiMessageId ? { ...m, content: aiContent } : m),
+                  lastUpdated: new Date()
+                };
+              }
+              return c;
+            })
+          }));
+        }
+      } catch (error) {
+        console.error('AI Streaming Error:', error);
+        set((s) => ({
+          conversations: s.conversations.map((c) => {
+            if (c.id === activeId) {
+              return {
+                ...c,
+                messages: c.messages.map(m => m.id === aiMessageId ? { ...m, content: 'Sorry, I encountered an error. Please check your API key and try again.' } : m)
+              };
+            }
+            return c;
+          })
+        }));
+      }
+    })();
 
     return {
-      conversations: updatedConversations
+      conversations: updatedConversationsWithAi
     };
   }),
   createNewConversation: (title) => {
@@ -703,13 +735,120 @@ export const useAppStore = create<AppStore>((set, get) => ({
 
   // GitHub Analytics State
   githubAnalytics: MOCK_GITHUB,
-  connectGithub: (username) => set((state) => ({
-    githubAnalytics: {
-      ...state.githubAnalytics,
-      username,
-      connected: true
+  connectGithub: async (username) => {
+    try {
+      const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=30&sort=updated`);
+      if (!res.ok) throw new Error('Failed to fetch repositories');
+      const repos = await res.json();
+      
+      if (!Array.isArray(repos)) throw new Error('Invalid response from GitHub API');
+      
+      const langCounts: Record<string, number> = {};
+      repos.forEach(r => {
+        if (r.language) {
+          langCounts[r.language] = (langCounts[r.language] || 0) + 1;
+        }
+      });
+      
+      const colors: Record<string, string> = {
+        TypeScript: '#3178c6',
+        JavaScript: '#f1e05a',
+        HTML: '#e34c26',
+        CSS: '#563d7c',
+        Python: '#3572A5',
+        Java: '#b07219',
+        Go: '#00ADD8',
+        Rust: '#dea584',
+        C: '#555555',
+        'C++': '#f34b7d',
+        Ruby: '#701516',
+        PHP: '#4F5D95',
+        Shell: '#89e051'
+      };
+      
+      const totalLangs = Object.values(langCounts).reduce((a, b) => a + b, 0) || 1;
+      const languages = Object.entries(langCounts).map(([name, count]) => ({
+        name,
+        value: Math.round((count / totalLangs) * 100),
+        color: colors[name] || '#8b5cf6'
+      })).sort((a, b) => b.value - a.value);
+      
+      const totalStars = repos.reduce((acc, r) => acc + (r.stargazers_count || 0), 0);
+      const totalForks = repos.reduce((acc, r) => acc + (r.forks_count || 0), 0);
+      
+      const portfolioStrengthScore = Math.min(98, 50 + repos.length * 2 + totalStars * 3);
+      const consistencyScore = Math.min(95, 60 + (repos.length % 5) * 8);
+      const aiEngineerReadiness = Math.min(95, 40 + (langCounts['Python'] || 0) * 12 + (langCounts['TypeScript'] || 0) * 6);
+      
+      const skillDetection = [
+        ...new Set([
+          ...Object.keys(langCounts).map(l => `${l} Development`),
+          'UI Architecture',
+          'API Infrastructure',
+          'Modern Git Workflows'
+        ])
+      ].slice(0, 6);
+      
+      const recruiterInsights = [
+        `Demonstrates strong capabilities in ${Object.keys(langCounts).slice(0, 3).join(', ') || 'coding'} through public repositories.`,
+        `Active GitHub profile @${username} with ${repos.length} public repositories and ${totalStars} stars recorded.`,
+        `Primary stack focus lies in ${languages[0]?.name || 'Fullstack'} systems with secondary exposure in ${languages[1]?.name || 'web'} development.`
+      ];
+      
+      const growthRecommendations = [
+        `Increase unit test coverage in your primary ${languages[0]?.name || 'TypeScript'} repositories.`,
+        `Configure GitHub Actions CI pipeline for automated testing on active pushes.`,
+        `Improve README.md documentation for ${repos[0]?.name || 'your projects'} to showcase system design patterns.`
+      ];
+      
+      const repositoryIntelligence = repos.map((r: any) => ({
+        name: r.name,
+        description: r.description || 'Public GitHub repository.',
+        analysis: [
+          r.description ? 'Descriptive repository metadata' : 'Clean code container',
+          `Main language detected as ${r.language || 'Plain text'}`,
+          r.fork ? 'Forked open-source repository' : 'Original pilot blueprint development',
+          `Last active update: ${new Date(r.updated_at).toLocaleDateString()}`
+        ],
+        detectedSkills: [r.language || 'General Stack', 'Code Architecture', r.fork ? 'Collaboration' : 'Independent Project'],
+        growthRecommendation: [
+          `Add more tests to verify ${r.language || 'codebase'} coverage`,
+          'Document configuration setups in README.md'
+        ],
+        stars: r.stargazers_count || 0,
+        forks: r.forks_count || 0,
+        lang: r.language || 'Unknown'
+      }));
+      
+      set((state) => ({
+        githubAnalytics: {
+          username,
+          avatarUrl: repos[0]?.owner?.avatar_url || state.githubAnalytics.avatarUrl,
+          totalRepos: repos.length,
+          totalCommits: repos.length * 15 + totalStars * 2, // simulated commits count
+          consistencyScore,
+          portfolioStrengthScore,
+          aiEngineerReadiness,
+          connected: true,
+          languages,
+          recentCommits: state.githubAnalytics.recentCommits,
+          skillDetection,
+          growthRecommendations,
+          recruiterInsights,
+          repositoryIntelligence
+        }
+      }));
+    } catch (e) {
+      console.error('GitHub API failed, falling back to mock metrics:', e);
+      set((state) => ({
+        githubAnalytics: {
+          ...state.githubAnalytics,
+          username,
+          connected: true
+        }
+      }));
     }
-  })),
+  },
   disconnectGithub: () => set((state) => ({
     githubAnalytics: {
       ...state.githubAnalytics,
