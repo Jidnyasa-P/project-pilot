@@ -1,41 +1,38 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { 
-  Award, 
-  Activity, 
-  GitMerge, 
-  Cpu, 
-  Sparkles, 
-  ChevronRight, 
-  ArrowUpRight, 
-  CheckSquare, 
-  FileText,
-  Calendar,
-  AlertTriangle
-} from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
 import { Github } from '@/components/ui/BrandIcons';
-import { 
-  ResponsiveContainer, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  Radar,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip
-} from 'recharts';
+import { Button } from '@/components/ui/Button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Progress } from '@/components/ui/Progress';
 import { useAppStore } from '@/store/useAppStore';
 import { useClerk, useUser } from '@clerk/nextjs';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { Progress } from '@/components/ui/Progress';
-import { Button } from '@/components/ui/Button';
+import { motion } from 'framer-motion';
+import {
+  AlertTriangle,
+  ArrowUpRight,
+  Calendar,
+  ChevronRight,
+  Cpu,
+  FileText,
+  GitMerge,
+  Sparkles
+} from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
+import {
+  Bar,
+  BarChart,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 
 export default function MainDashboardPage() {
   const { user, projects, careerScore, githubAnalytics, selectProject } = useAppStore();
