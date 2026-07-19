@@ -40,6 +40,26 @@ export interface Project {
   category: string;
 }
 
+
+export type ProjectActivityType =
+  | 'project_created'
+  | 'project_updated'
+  | 'status_changed'
+  | 'progress_updated'
+  | 'milestone'
+  | 'project_start'
+  | 'archived'
+  | 'restored';
+
+export interface ProjectActivity {
+  id: string;
+  type: ProjectActivityType | string;
+  description: string;
+  projectId: string;
+  projectTitle?: string;
+  createdAt: string;
+}
+
 export interface RoadmapStep {
   id: string;
   title: string;
